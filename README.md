@@ -1,19 +1,18 @@
-# Glomium — static site
+# Glomium — mobile site (m.glomium.co)
 
-Upload the contents of this folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, cPanel).
+Separate visual pass for phones — vertical composition, stacked "creative / INFINITELY" lockup, single "Contact" link, no side nav. Same brand/system as the desktop site (white bg, `--green` #10AF8B, Jost).
+
+Upload the contents of this folder to the `m.glomium.co` host:
 
 ```
-index.html          the page
-site.js             scroll animation (vanilla JS, no framework)
+index.html
+site.js
 assets/
   wordmark-green.png
   favicon.png
 ```
 
-No build step. `index.html` must sit at the web root with `assets/` and `site.js` beside it.
-
-Editing:
-- Brand colors — `--green` / `--green-deep` in the `<style>` block of `index.html`.
-- Scroll length — `props.scrollLength` in `site.js` (6.2 = 620vh of scroll).
-- Opening zoom on the infinity leg — `props.startZoom` in `site.js`.
-- Copy — the `data-el="line"` paragraph, the `data-el="payoff"` line, nav links, footer.
+Tuning in `site.js`:
+- `props.scrollLength` — svh multiple of scroll travel (default 5.6).
+- `props.startZoom` — how tight the opening crop on the infinity leg is (default 22, higher = tighter).
+- `bwEnd` calc in `measure()` — how much of the screen width the fully zoomed-out mark fills (0.86 currently).
