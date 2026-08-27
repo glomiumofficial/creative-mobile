@@ -46,8 +46,8 @@
     set(E.wm,'transform','translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scale('+s.toFixed(4)+')');
     set(E.cue,'opacity',(1-seg(t,0,0.05)).toFixed(3));
 
-    set(E.line,'opacity',(seg(t,0.26,0.38)*(1-seg(t,0.48,0.58))).toFixed(3));
-    set(E.line,'transform','translate3d(0,'+mix(22,-16,seg(t,0.22,0.60)).toFixed(1)+'px,0)');
+    set(E.line,'opacity',(seg(t,0.08,0.16)*(1-seg(t,0.22,0.29))).toFixed(3));
+    set(E.line,'transform','translate3d(0,'+mix(20,-14,seg(t,0.06,0.26)).toFixed(1)+'px,0)');
 
     var pin=out(seg(t,0.52,0.66)), grow=ease(seg(t,0.66,1));
     var scale=mix(0.72,1,grow), rise=mix(18,-6,grow);
