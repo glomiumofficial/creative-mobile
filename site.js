@@ -5,13 +5,13 @@
   function q(s){ return document.querySelector(s); }
   function grab(){
     E.inf=q('[data-el="inf"]'); E.line=q('[data-el="line"]'); E.payoff=q('[data-el="payoff"]');
-    E.payoffBig=q('[data-el="payoffBig"]'); E.wm=q('[data-el="wm"]');
-    E.cue=q('[data-el="cue"]'); E.track=q('[data-el="track"]'); E.stage=q('[data-el="stage"]'); last={};
+    E.payoffBig=q('[data-el="payoffBig"]'); E.wm=q('[data-el="wm"]'); E.cue=q('[data-el="cue"]');
+    E.track=q('[data-el="track"]'); E.stage=q('[data-el="stage"]'); last={};
   }
   function apply(){
     var r=document.documentElement.style;
     r.setProperty('--green', props.accent); r.setProperty('--green-deep', props.accentDeep);
-    E.track.style.height = (props.scrollLength*100) + 'svh';
+    E.track.style.height = props.scrollLength*100 + 'svh';
   }
   function measure(){
     vw = E.stage.offsetWidth || innerWidth;
@@ -20,7 +20,7 @@
     wmW = E.wm.offsetWidth || vw*0.8;
     wmH = E.wm.offsetHeight || wmW*0.287;
     pw = E.payoffBig.scrollWidth || 1;
-    bwEnd = Math.max(230, 220.9*vw/(0.86*Math.min(vw,vh)));
+    bwEnd = Math.max(230, 220.9 * vw / (0.86 * Math.min(vw, vh)));
   }
   function cl(v,a,b){ return v<a?a:v>b?b:v; }
   function seg(t,a,b){ return cl((t-a)/(b-a),0,1); }
@@ -32,18 +32,19 @@
   function write(t){
     if(!vw) return;
     var z=ease(seg(t,0.03,0.70)), drift=ease(seg(t,0.56,1));
-    var bwe=bwEnd||500, k=bwe/620;
-    var bw=mix(bwe/props.startZoom,bwe,z), bh=bw*(vh/vw);
+    var k=(bwEnd||500)/620;
+    var bw=mix((bwEnd||500)/props.startZoom,(bwEnd||500),z), bh=bw*(vh/vw);
     var cx=mix(46,110.4,z)+drift*40*k, cy=mix(176,98,z)-drift*44*k;
     var vb=(cx-bw/2).toFixed(2)+' '+(cy-bh/2).toFixed(2)+' '+bw.toFixed(2)+' '+bh.toFixed(2);
     if(last.vb!==vb){ last.vb=vb; E.inf.setAttribute('viewBox',vb); }
-    set(E.inf,'opacity',(1-seg(t,0.85,0.99)).toFixed(3));
+    set(E.inf,'opacity',(ease(seg(t,0.02,0.13))*(1-seg(t,0.85,0.99))).toFixed(3));
 
     var wp=ease(seg(t,0.05,0.42)), endW=Math.min(150,vw*0.4);
     var s=mix(1,endW/wmW,wp);
     var x=mix((vw-wmW)/2, Math.max(18,vw*0.06), wp);
     var y=mix((vh-wmH)/2, Math.max(16,vh*0.03), wp);
     set(E.wm,'transform','translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scale('+s.toFixed(4)+')');
+
     set(E.cue,'opacity',(1-seg(t,0,0.05)).toFixed(3));
 
     set(E.line,'opacity',(seg(t,0.08,0.16)*(1-seg(t,0.22,0.29))).toFixed(3));
