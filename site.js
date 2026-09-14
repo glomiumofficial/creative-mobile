@@ -6,11 +6,11 @@
   function grab(){
     E.inf=q('[data-el="inf"]'); E.line=q('[data-el="line"]'); E.payoff=q('[data-el="payoff"]');
     E.payoffBig=q('[data-el="payoffBig"]'); E.wm=q('[data-el="wm"]'); E.cue=q('[data-el="cue"]');
-    E.track=q('[data-el="track"]'); E.stage=q('[data-el="stage"]'); last={};
+    E.track=q('[data-el="track"]'); E.stage=q('[data-el="stage"]'); E.depth=q('[data-el="depth"]'); last={};
   }
   function apply(){
     var r=document.documentElement.style;
-    r.setProperty('--green', props.accent); r.setProperty('--green-deep', props.accentDeep);
+    r.setProperty('--green', props.accent); r.setProperty('--green-deep', props.accentDeep); r.setProperty('--ink', props.accentDeep);
     E.track.style.height = props.scrollLength*100 + 'svh';
   }
   function measure(){
@@ -20,7 +20,7 @@
     wmW = E.wm.offsetWidth || vw*0.8;
     wmH = E.wm.offsetHeight || wmW*0.287;
     pw = E.payoffBig.scrollWidth || 1;
-    bwEnd = Math.max(230, 220.9 * vw / (0.86 * Math.min(vw, vh)));
+    bwEnd = Math.max(170, 160 * vw / (0.86 * Math.min(vw, vh)));
   }
   function cl(v,a,b){ return v<a?a:v>b?b:v; }
   function seg(t,a,b){ return cl((t-a)/(b-a),0,1); }
@@ -32,12 +32,12 @@
   function write(t){
     if(!vw) return;
     var z=ease(seg(t,0.03,0.70)), drift=ease(seg(t,0.56,1));
-    var k=(bwEnd||500)/620;
-    var bw=mix((bwEnd||500)/props.startZoom,(bwEnd||500),z), bh=bw*(vh/vw);
-    var cx=mix(46,110.4,z)+drift*40*k, cy=mix(176,98,z)-drift*44*k;
+    var BW=bwEnd||200;
+    var bw=mix(BW/props.startZoom,BW,z), bh=bw*(vh/vw);
+    var cx=mix(55,100,z)+drift*BW*0.04, cy=mix(26,50,z)-drift*BW*0.05;
     var vb=(cx-bw/2).toFixed(2)+' '+(cy-bh/2).toFixed(2)+' '+bw.toFixed(2)+' '+bh.toFixed(2);
     if(last.vb!==vb){ last.vb=vb; E.inf.setAttribute('viewBox',vb); }
-    set(E.inf,'opacity',(ease(seg(t,0.02,0.13))*(1-seg(t,0.85,0.99))).toFixed(3));
+    set(E.inf,'opacity',(ease(seg(t,0.02,0.13))*(1-seg(t,0.74,0.82))).toFixed(3));
 
     var wp=ease(seg(t,0.05,0.42)), endW=Math.min(150,vw*0.4);
     var s=mix(1,endW/wmW,wp);
@@ -47,10 +47,10 @@
 
     set(E.cue,'opacity',(1-seg(t,0,0.05)).toFixed(3));
 
-    set(E.line,'opacity',(seg(t,0.08,0.16)*(1-seg(t,0.22,0.29))).toFixed(3));
-    set(E.line,'transform','translate3d(0,'+mix(20,-14,seg(t,0.06,0.26)).toFixed(1)+'px,0)');
+    set(E.line,'opacity',(seg(t,0.50,0.58)*(1-seg(t,0.66,0.72))).toFixed(3));
+    set(E.line,'transform','translate3d(0,'+mix(20,-14,seg(t,0.46,0.70)).toFixed(1)+'px,0)');
 
-    var pin=out(seg(t,0.52,0.66)), grow=ease(seg(t,0.66,1));
+    var pin=out(seg(t,0.84,0.92)), grow=ease(seg(t,0.88,1));
     var scale=mix(0.72,1,grow), rise=mix(18,-6,grow);
     set(E.payoff,'transform','translate3d(0,'+rise.toFixed(1)+'px,0) scale('+scale.toFixed(4)+')');
     set(E.payoff,'opacity',pin.toFixed(3));
